@@ -19,36 +19,37 @@ presence.on('UpdateData', async () => {
   const { pathname: path } = document.location
   const privacyMode = await presence.getSetting<boolean>('privacy')
   const video = document.querySelector<HTMLVideoElement>('video')
-  const { href, pathname } = document.location
-  const search = document.querySelector<HTMLInputElement>('[data-testid="search-input"]')
+  const search = document.querySelector<HTMLInputElement>(
+    '[data-testid="search-input"]',
+  )
   if (privacyMode) {
     presenceData.details = 'Watching NOW TV'
   }
   else {
     if (path.startsWith('/watch/home')) {
-        presenceData.details = 'Browsing NOW TV'
-        presenceData.state = 'Home'
-      }
+      presenceData.details = 'Browsing NOW TV'
+      presenceData.state = 'Home'
+    }
     if (path.startsWith('/watch/tv/highlights')) {
-        presenceData.details = 'Browsing Sky Entertainment'
-        presenceData.state = 'Looking at TV shows'
-        }
+      presenceData.details = 'Browsing Sky Entertainment'
+      presenceData.state = 'Looking at TV shows'
+    }
     if (path.startsWith('/watch/movies/highlights')) {
-        presenceData.details = 'Browsing Sky Cinema'
-        presenceData.state = 'Looking at movies'
-        }
+      presenceData.details = 'Browsing Sky Cinema'
+      presenceData.state = 'Looking at movies'
+    }
     if (path.startsWith('/watch/sports/highlights')) {
-        presenceData.details = 'Browsing Sky Sports'
-        presenceData.state = 'Looking at sports'
-        }
+      presenceData.details = 'Browsing Sky Sports'
+      presenceData.state = 'Looking at sports'
+    }
     if (path.startsWith('/watch/hayu')) {
-        presenceData.details = 'Browsing Hayu'
-        presenceData.state = 'Looking at TV shows'
-        }
+      presenceData.details = 'Browsing Hayu'
+      presenceData.state = 'Looking at TV shows'
+    }
     if (path.startsWith('/watch/my-stuff')) {
-        presenceData.details = 'Browsing NOW TV'
-        presenceData.state = 'Looking at watchlist'
-        }
+      presenceData.details = 'Browsing NOW TV'
+      presenceData.state = 'Looking at watchlist'
+    }
     if (search) {
       presenceData.details = 'Searching for'
       presenceData.state = search.value
@@ -65,21 +66,28 @@ presence.on('UpdateData', async () => {
       presenceData.details = title
       presenceData.state = episodeDetails
       presenceData.smallImageKey = video.paused ? Assets.Pause : Assets.Play;
-      [presenceData.startTimestamp, presenceData.endTimestamp] = getTimestampsFromMedia(video)
+      [presenceData.startTimestamp, presenceData.endTimestamp]
+        = getTimestampsFromMedia(video)
 
       if (path.startsWith('/watch/playback/live/')) {
         delete presenceData.startTimestamp
         delete presenceData.endTimestamp
-        const liveTitle = document.querySelector<HTMLMetaElement>('[class="playback-now-next-item-title"]');
-        const liveChannel = document.querySelector<HTMLMetaElement>('[class="playback-now-next-item-main-wrapper main"]')?.getAttribute('data-testid');
+        const liveTitle = document.querySelector<HTMLMetaElement>(
+          '[class="playback-now-next-item-title"]',
+        )
+        const liveChannel = document
+          .querySelector<HTMLMetaElement>(
+            '[class="playback-now-next-item-main-wrapper main"]',
+          )
+          ?.getAttribute('data-testid')
         presenceData.smallImageKey = Assets.Live
         presenceData.smallImageText = 'Live'
         presenceData.details = liveTitle
         presenceData.state = `Watching live on ${liveChannel}`
-        }
+      }
 
       if (!episodeDetails) {
-        presenceData.state = "Watching a movie"
+        presenceData.state = 'Watching a movie'
       }
 
       if (video.paused) {
@@ -94,4 +102,4 @@ presence.on('UpdateData', async () => {
   if (presenceData.details)
     presence.setActivity(presenceData)
   else presence.setActivity()
-  })
+})

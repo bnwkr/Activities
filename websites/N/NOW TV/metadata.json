@@ -22,7 +22,7 @@
     "video",
     "streaming"
   ],
-    "settings": [
+  "settings": [
     {
       "id": "privacy",
       "title": "Privacy Mode",
