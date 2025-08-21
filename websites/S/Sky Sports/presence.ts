@@ -24,7 +24,7 @@ presence.on("UpdateData", async () => {
     presenceData.startTimestamp = browsingTimestamp;
   }
 
-  if (!urlpath[1] && !urlpath[2]) {
+  if (!urlpath[1]) {
     presenceData.details = "Home";
   } else {
     if (
@@ -36,8 +36,10 @@ presence.on("UpdateData", async () => {
         ? "Reading article"
         : "Reading article:";
       if (!setting.privacy) {
-        presenceData.state =
-          document.querySelector<HTMLMetaElement>("[data-short-title]");
+        const articleTitle = document.querySelector<HTMLMetaElement>(
+          '[class="sdc-article-header__long-title"]'
+        );
+        presenceData.state = articleTitle?.textContent ?? "Latest";
       }
 
       if (setting.showButtons && !setting.privacy) {
@@ -125,7 +127,6 @@ presence.on("UpdateData", async () => {
     }
     if (urlpath[1] === "football") {
       // Football
-      presenceData.details = "Reading football news";
       if (urlpath[2] === "tables") {
         presenceData.details = "Viewing football tables";
       }
@@ -138,8 +139,7 @@ presence.on("UpdateData", async () => {
       if (urlpath[2] === "competitions") {
         presenceData.details = "Viewing football leagues & cups";
       }
-    }
-    if (
+    } else if (
       // categories
       urlpath[1] === "football" ||
       urlpath[1] === "cricket" ||
