@@ -14,7 +14,7 @@ presence.on('UpdateData', async () => {
   const presenceData: PresenceData = {
     largeImageKey: ActivityAssets.Logo,
     startTimestamp: browsingTimestamp,
-    type: ActivityType.Watching
+    type: ActivityType.Watching,
   }
   const { pathname: path } = document.location
   const privacyMode = await presence.getSetting<boolean>('privacy')
