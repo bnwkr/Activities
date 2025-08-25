@@ -13,7 +13,7 @@ const browsingTimestamp = Math.floor(Date.now() / 1000)
 presence.on('UpdateData', async () => {
   const presenceData: PresenceData = {
     largeImageKey: ActivityAssets.Logo,
-    startTimestamp: browsingTimestamp
+    startTimestamp: browsingTimestamp,
   }
   const { pathname: path } = document.location
   const privacyMode = await presence.getSetting<boolean>('privacy')
@@ -49,7 +49,7 @@ presence.on('UpdateData', async () => {
       delete presenceData.endTimestamp
       presenceData.smallImageKey = Assets.Live
       presenceData.smallImageText = 'Live'
-      }
+    }
 
     if (video.paused) {
       delete presenceData.startTimestamp
@@ -59,34 +59,34 @@ presence.on('UpdateData', async () => {
     }
   }
   else if (path.startsWith('/')) {
-        presenceData.details = 'Browsing NOW TV'
-      }
+    presenceData.details = 'Browsing NOW TV'
+  }
   else if (path.startsWith('/watch/home')) {
-        presenceData.details = 'Browsing NOW TV'
-        presenceData.state = 'Home'
-      }
+    presenceData.details = 'Browsing NOW TV'
+    presenceData.state = 'Home'
+  }
   else if (path.startsWith('/watch/tv/highlights')) {
-        presenceData.details = 'Browsing Sky Entertainment'
-        presenceData.state = 'Looking at TV shows'
-        }
+    presenceData.details = 'Browsing Sky Entertainment'
+    presenceData.state = 'Looking at TV shows'
+  }
   else if (path.startsWith('/watch/movies/highlights')) {
-        presenceData.details = 'Browsing Sky Cinema'
-        presenceData.state = 'Looking at movies'
-        }
+    presenceData.details = 'Browsing Sky Cinema'
+    presenceData.state = 'Looking at movies'
+  }
   else if (path.startsWith('/watch/sports/highlights')) {
-        presenceData.details = 'Browsing Sky Sports'
-        presenceData.state = 'Looking at sports'
-        }
+    presenceData.details = 'Browsing Sky Sports'
+    presenceData.state = 'Looking at sports'
+  }
   else if (path.startsWith('/watch/hayu')) {
-        presenceData.details = 'Browsing Hayu'
-        presenceData.state = 'Looking at TV shows'
-        }
+    presenceData.details = 'Browsing Hayu'
+    presenceData.state = 'Looking at TV shows'
+  }
   else if (path.startsWith('/watch/my-stuff')) {
-        presenceData.details = 'Browsing NOW TV'
-        presenceData.state = 'Looking at watchlist'
-        }
+    presenceData.details = 'Browsing NOW TV'
+    presenceData.state = 'Looking at watchlist'
+  }
 
   if (presenceData.details)
     presence.setActivity(presenceData)
   else presence.clearActivity()
-  })
+})
