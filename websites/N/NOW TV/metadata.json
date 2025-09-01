@@ -15,12 +15,18 @@
   ],
   "version": "1.0.0",
   "logo": "https://m.media-amazon.com/images/I/61sDr8btlTL.png",
-  "thumbnail": "https://m.media-amazon.com/images/I/61sDr8btlTL.png",
-  "color": "#000000",
+  "thumbnail": "https://cdn.sdccdn.com/img/now-tv-savings-banner.jpeg",
+  "color": "#066b73",
   "category": "videos",
   "tags": [
     "video",
-    "streaming"
+    "streaming",
+    "live tv",
+    "sports",
+    "movies",
+    "hayu",
+    "hbo",
+    "tv"
   ],
   "settings": [
     {

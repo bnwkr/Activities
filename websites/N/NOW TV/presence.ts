@@ -38,9 +38,6 @@ presence.on('UpdateData', async () => {
     const episodeDetails = document.querySelector<HTMLMetaElement>(
       '[class="item playback-metadata__container-episode-metadata-info"]',
     )
-    const episodeImage = document.querySelector<HTMLImageElement>(
-      '[class="episode__image"]',
-    )
 
     presenceData.details = title
     presenceData.state = episodeDetails
