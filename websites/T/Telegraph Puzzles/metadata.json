@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.premid.app/metadata/1.15",
+  "apiVersion": 1,
+  "author": {
+    "id": "212701689579438080",
+    "name": "bnwkr"
+  },
+  "service": "Telegraph Puzzles",
+  "description": {
+    "en": "Play The Telegraph's full range of puzzles, including Crosswords, Sudoku, PlusWord and Sorted, with thousands more brainteasers in the archive."
+  },
+  "url": "www.telegraph.co.uk",
+  "version": "1.0.0",
+  "logo": "https://i.imgur.com/qZGUlJI.png",
+  "thumbnail": "https://www.telegraph.co.uk/content/dam/news/2022/09/02/TELEMMGLPICT000307671951_1_trans_NvBQzQNjv4BqqVzuuqpFlyLIwiB6NTmJwfSVWeZ_vEN7c6bHu2jJnT8.jpeg",
+  "color": "#feebe4",
+  "category": "games",
+  "tags": [
+    "game",
+    "puzzle",
+    "language",
+    "crossword",
+    "word",
+    "guessing",
+    "trivia"
+  ]
+}
