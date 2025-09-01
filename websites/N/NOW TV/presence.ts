@@ -31,7 +31,7 @@ presence.on('UpdateData', async () => {
     presenceData.state = search.value
     presenceData.smallImageKey = Assets.Search
   }
-  if (video?.duration) {
+  if (video?.duration) { // Display details of a movie or TV show that is currently being watched
     const title = document.querySelector<HTMLMetaElement>(
       '[class="item playback-metadata__container-title"]',
     )
@@ -44,13 +44,20 @@ presence.on('UpdateData', async () => {
     presenceData.smallImageKey = video.paused ? Assets.Pause : Assets.Play;
     [presenceData.startTimestamp, presenceData.endTimestamp] = getTimestampsFromMedia(video)
 
-    if (urlpath[3] === 'live') {
+    if (urlpath[3] === 'live') { // Grab details of live TV channel and display them
       delete presenceData.startTimestamp
       delete presenceData.endTimestamp
+      const channelElement = document.querySelector<HTMLDivElement>(
+        '.playback-now-next-item-main-wrapper.main[data-testid]',
+      )
+      const channelName = channelElement?.getAttribute('data-testid')
       presenceData.smallImageKey = Assets.Live
       presenceData.smallImageText = 'Live'
-      if (!episodeDetails)
-        presenceData.state = 'Watching live TV'
+      presenceData.details = `${title?.textContent ?? ''}: ${episodeDetails?.textContent ?? ''}`
+      presenceData.state = `Watching live on ${channelName}`
+      if (!episodeDetails) {
+        presenceData.details = title
+      }
     }
 
     if (video.paused) {
@@ -87,7 +94,7 @@ presence.on('UpdateData', async () => {
     presenceData.details = 'Browsing NOW TV'
     presenceData.state = 'Looking at watchlist'
   }
-  else if (urlpath[2] === 'asset') {
+  else if (urlpath[2] === 'asset') { // Show that a user is looking at a movie or TV show but not watching it
     const assetTitle = document.querySelector<HTMLMetaElement>(
       'title',
     )
