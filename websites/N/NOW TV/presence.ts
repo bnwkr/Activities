@@ -26,23 +26,34 @@ presence.on('UpdateData', async () => {
   if (setting.privacy) {
     presenceData.details = 'Watching NOW TV'
   }
-  if (search) {
+  else if (search) {
     presenceData.details = 'Searching for'
     presenceData.state = search.value
     presenceData.smallImageKey = Assets.Search
   }
-  if (video?.duration) { // Display details of a movie or TV show that is currently being watched
+  else if (video?.duration) { // Display details of a movie or TV show that is currently being watched
     const title = document.querySelector<HTMLMetaElement>(
       '[class="item playback-metadata__container-title"]',
     )
     const episodeDetails = document.querySelector<HTMLMetaElement>(
       '[class="item playback-metadata__container-episode-metadata-info"]',
     )
+    const episodeImage = document.querySelector<HTMLImageElement>(
+      '[class="episode__image"]',
+    )
 
     presenceData.details = title
     presenceData.state = episodeDetails
+    presenceData.name = `${title?.textContent ?? 'NOW TV'}`
     presenceData.smallImageKey = video.paused ? Assets.Pause : Assets.Play;
     [presenceData.startTimestamp, presenceData.endTimestamp] = getTimestampsFromMedia(video)
+
+    presenceData.buttons = [
+      {
+        label: 'Watch Now',
+        url: document.location.href,
+      },
+    ]
 
     if (urlpath[3] === 'live') { // Grab details of live TV channel and display them
       delete presenceData.startTimestamp
@@ -58,6 +69,13 @@ presence.on('UpdateData', async () => {
       if (!episodeDetails) {
         presenceData.details = title
       }
+      presenceData.name = `${title?.textContent ?? `${channelName}`}`
+      presenceData.buttons = [
+        {
+          label: 'Watch Live on NOW TV',
+          url: document.location.href,
+        },
+      ]
     }
 
     if (video.paused) {
