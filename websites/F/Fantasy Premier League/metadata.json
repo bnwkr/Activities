@@ -11,7 +11,7 @@
   },
   "url": "fantasy.premierleague.com",
   "version": "1.0.0",
-  "logo": "https://i.imgur.com/D4nwAAM.jpeg",
+  "logo": "https://i.imgur.com/uCv7S6E.jpeg",
   "thumbnail": "https://i.imgur.com/eEY0sdz.png",
   "color": "#7367ff",
   "category": "other",
@@ -24,6 +24,12 @@
     "league"
   ],
   "settings": [
+    {
+      "id": "privacy",
+      "title": "Privacy Mode",
+      "icon": "fad fa-user-secret",
+      "value": false
+    },
     {
       "id": "showButtons",
       "title": "Show buttons",
