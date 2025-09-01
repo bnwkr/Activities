@@ -1,4 +1,4 @@
-import { Assets } from 'premid'
+import { ActivityType, Assets, getTimestampsFromMedia } from 'premid'
 
 const presence = new Presence({
   clientId: '1408037363665338519',
@@ -14,41 +14,43 @@ presence.on('UpdateData', async () => {
   const presenceData: PresenceData = {
     largeImageKey: ActivityAssets.Logo,
     startTimestamp: browsingTimestamp,
+    type: ActivityType.Watching,
   }
-  const { pathname: path } = document.location
-  const privacyMode = await presence.getSetting<boolean>('privacy')
+  const setting = {
+    privacy: await presence.getSetting<boolean>('privacy'),
+  }
+  const urlpath = document.location.pathname.split('/')
   const video = document.querySelector<HTMLVideoElement>('video')
-  const { href, pathname } = document.location
   const search = document.querySelector<HTMLInputElement>('[data-testid="search-input"]')
-  if (privacyMode) {
+
+  if (setting.privacy) {
     presenceData.details = 'Watching NOW TV'
   }
-  else if (search) {
+  if (search) {
     presenceData.details = 'Searching for'
     presenceData.state = search.value
     presenceData.smallImageKey = Assets.Search
   }
-  else if (video?.duration) {
+  if (video?.duration) {
     const title = document.querySelector<HTMLMetaElement>(
       '[class="item playback-metadata__container-title"]',
     )
     const episodeDetails = document.querySelector<HTMLMetaElement>(
       '[class="item playback-metadata__container-episode-metadata-info"]',
     )
-    const largePhoto = document.querySelector<HTMLMetaElement>(
-      '[class="aspect-ratio-image__img"]',
-    )
 
     presenceData.details = title
     presenceData.state = episodeDetails
     presenceData.smallImageKey = video.paused ? Assets.Pause : Assets.Play;
-    [presenceData.startTimestamp, presenceData.endTimestamp] = presence.getTimestampsfromMedia(video)
+    [presenceData.startTimestamp, presenceData.endTimestamp] = getTimestampsFromMedia(video)
 
-    if (path.startsWith('/watch/playback/live/')) {
+    if (urlpath[3] === 'live') {
       delete presenceData.startTimestamp
       delete presenceData.endTimestamp
       presenceData.smallImageKey = Assets.Live
       presenceData.smallImageText = 'Live'
+      if (!episodeDetails)
+        presenceData.state = 'Watching live TV'
     }
 
     if (video.paused) {
@@ -58,32 +60,39 @@ presence.on('UpdateData', async () => {
       presenceData.smallImageText = 'Paused'
     }
   }
-  else if (path.startsWith('/')) {
+  else if (!urlpath[1]) {
     presenceData.details = 'Browsing NOW TV'
   }
-  else if (path.startsWith('/watch/home')) {
+  else if (urlpath[2] === 'home') {
     presenceData.details = 'Browsing NOW TV'
     presenceData.state = 'Home'
   }
-  else if (path.startsWith('/watch/tv/highlights')) {
+  else if (urlpath[2] === 'tv') {
     presenceData.details = 'Browsing Sky Entertainment'
     presenceData.state = 'Looking at TV shows'
   }
-  else if (path.startsWith('/watch/movies/highlights')) {
+  else if (urlpath[2] === 'movies') {
     presenceData.details = 'Browsing Sky Cinema'
     presenceData.state = 'Looking at movies'
   }
-  else if (path.startsWith('/watch/sports/highlights')) {
+  else if (urlpath[2] === 'sports') {
     presenceData.details = 'Browsing Sky Sports'
     presenceData.state = 'Looking at sports'
   }
-  else if (path.startsWith('/watch/hayu')) {
+  else if (urlpath[2] === 'hayu') {
     presenceData.details = 'Browsing Hayu'
     presenceData.state = 'Looking at TV shows'
   }
-  else if (path.startsWith('/watch/my-stuff')) {
+  else if (urlpath[2] === 'my-stuff') {
     presenceData.details = 'Browsing NOW TV'
     presenceData.state = 'Looking at watchlist'
+  }
+  else if (urlpath[2] === 'asset') {
+    const assetTitle = document.querySelector<HTMLMetaElement>(
+      'title',
+    )
+    presenceData.state = assetTitle?.innerText.replace(' - NOW', '')
+    presenceData.details = 'Browsing details'
   }
 
   if (presenceData.details)
