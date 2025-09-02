@@ -39,7 +39,7 @@ presence.on('UpdateData', async () => {
 
   else if (!urlpath[1]) {
     presenceData.details = 'Homepage'
-    presenceData.state = 'Viewing league status'
+    presenceData.state = 'Viewing FPL status'
   }
   else if (urlpath[1] === 'my-team') { // grabs team name and overall points while viewing your own FPL team
     const teamPoints = document.querySelector<HTMLMetaElement>('[class="rd5cco6"]')?.textContent
