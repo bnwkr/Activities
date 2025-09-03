@@ -34,37 +34,38 @@ presence.on('UpdateData', async () => {
     'squid-game': 'Looking at the Reload map',
   }
 
-  const sitePages: Record<string, { details: string; state: string; key: string; }> = { // list of all page RPCs that don't require extra code
-    'map-evolution': { details: 'Map Evolution', state: 'Comparing Fortnite maps', key: Assets.Search },
-    'wishlist': { details: 'Cosmetics', state: 'Looking at my wishlist', key: Assets.Viewing },
-    'locker': { details: 'Cosmetics', state: 'Viewing my locker', key: Assets.Viewing },
-    'news': { details: 'News', state: 'Reading the news feed', key: Assets.Reading},
-    'most-used': { details: 'Cosmetics', state: 'Browsing the most used cosmetics', key: Assets.Viewing },
-    'cosmetic-stats': {details: 'Cosmetics', state: 'Viewing cosmetic stats', key: Assets.Search },
-    'free-cosmetics': { details: 'Free Cosmetics', state: 'Looking at free cosmetics', key: Assets.Viewing },
-    'daily-jam-tracks': { details: 'Jam Tracks', state: 'Viewing the daily jam tracks', key: Assets.Viewing },
-    'creative': { details: 'Creative', state: 'Browsing most played maps', key: Assets.Reading },
-    'creators': { details: 'Creative', state: 'Browsing Fortnite creators', key: Assets.Reading },
-    'discover': { details: 'Creative', state: 'Browsing UEFN discover page', key: Assets.Search },
-    'best-cosmetics': { details: 'Rankings', state: 'Fortnite Outfits', key: Assets.Viewing },
-    'best-survey-skins': { details: 'Rankings', state: 'Survey Skins', key: Assets.Viewing },
-    'best-seasons': { details: 'Rankings', state: 'Fortnite Seasons', key: Assets.Viewing },
-    'best-crew-skins': { details: 'Rankings', state: 'Crew Skins', key: Assets.Viewing },
-    'best-fanmade-skins': { details: 'Rankings', state: 'Fan-made Skins', key: Assets.Viewing },
-    'about': { details: 'About', state: 'Reading about page', key: Assets.Reading },
-    'legal': { details: 'Legal', state: 'Reading legal info', key: Assets.Reading },
-    'account': { details: 'Account', state: 'Managing my account', key: Assets.Downloading },
-    'account-subscriptions': { details: 'Account', state: 'Managing my account', key: Assets.Downloading },
-    'account-settings': { details: 'Account', state: 'Managing my account', key: Assets.Downloading },
-    'premium': { details: 'Premium', state: 'Viewing Fortnite.GG Premium', key: Assets.Downloading },
-    'guides': { details: 'Guides', state: 'Reading Fortnite guides', key: Assets.Reading },
-    'pro-settings': { details: 'Guides', state: 'Looking at pro settings', key: Assets.Search },
-    'weapons': { details: 'Guides', state: 'Browsing all weapons', key: Assets.Search },
-    'xp': { details: 'Guides', state: 'Viewing XP calculator', key: Assets.Reading },
-    'story': { details: 'Story', state: 'Reading about Fortnite lore', key: Assets.Reading },
-    'season-countdown': { details: 'Season Countdown', state: 'Waiting for the next season', key: Assets.Premiere },
-    'community': { details: 'Community', state: 'Browsing social media posts', key: Assets.Reading },
-    'assets': { details: 'Beyond Assets', state: 'Viewing Fortnite assets', key: Assets.Search },
+  const sitePages: Record<string, { details: string; state: string; key: string; button: String; }> = { // list of all page RPCs that don't require extra code
+    'map-evolution': { details: 'Map Evolution', state: 'Comparing Fortnite maps', key: Assets.Search, button: 'y' },
+    'wishlist': { details: 'Cosmetics', state: 'Looking at my wishlist', key: Assets.Viewing, button: 'y' },
+    'locker': { details: 'Cosmetics', state: 'Viewing my locker', key: Assets.Viewing, button: 'y' },
+    'news': { details: 'News', state: 'Reading the news feed', key: Assets.Reading, button: 'y'},
+    'most-used': { details: 'Cosmetics', state: 'Browsing the most used cosmetics', key: Assets.Viewing, button: 'y' },
+    'cosmetic-stats': {details: 'Cosmetics', state: 'Viewing cosmetic stats', key: Assets.Search, button: 'y' },
+    'free-cosmetics': { details: 'Free Cosmetics', state: 'Looking at free cosmetics', key: Assets.Viewing, button: 'y' },
+    'daily-jam-tracks': { details: 'Jam Tracks', state: 'Viewing the daily jam tracks', key: Assets.Viewing, button: 'y' },
+    'player-count': { details: 'Creative', state: 'Viewing live player count', key: Assets.Viewing, button: 'y' },
+    'creative': { details: 'Creative', state: 'Browsing most played maps', key: Assets.Reading, button: 'y' },
+    'creators': { details: 'Creative', state: 'Browsing Fortnite creators', key: Assets.Reading, button: 'y' },
+    'discover': { details: 'Creative', state: 'Browsing UEFN discover page', key: Assets.Search, button: 'y' },
+    'best-cosmetics': { details: 'Rankings', state: 'Fortnite Outfits', key: Assets.Viewing, button: 'y' },
+    'best-survey-skins': { details: 'Rankings', state: 'Survey Skins', key: Assets.Viewing, button: 'y' },
+    'best-seasons': { details: 'Rankings', state: 'Fortnite Seasons', key: Assets.Viewing, button: 'y' },
+    'best-crew-skins': { details: 'Rankings', state: 'Crew Skins', key: Assets.Viewing, button: 'y' },
+    'best-fanmade-skins': { details: 'Rankings', state: 'Fan-made Skins', key: Assets.Viewing, button: 'y' },
+    'about': { details: 'About', state: 'Reading about page', key: Assets.Reading, button: 'n' },
+    'legal': { details: 'Legal', state: 'Reading legal info', key: Assets.Reading, button: 'n' },
+    'account': { details: 'Account', state: 'Managing my account', key: Assets.Downloading, button: 'n' },
+    'account-subscriptions': { details: 'Account', state: 'Managing my account', key: Assets.Downloading, button: 'n' },
+    'account-settings': { details: 'Account', state: 'Managing my account', key: Assets.Downloading, button: 'n' },
+    'premium': { details: 'Premium', state: 'Viewing Fortnite.GG Premium', key: Assets.Downloading, button: 'y' },
+    'guides': { details: 'Guides', state: 'Reading Fortnite guides', key: Assets.Reading, button: 'y' },
+    'pro-settings': { details: 'Guides', state: 'Looking at pro settings', key: Assets.Search, button: 'y' },
+    'weapons': { details: 'Guides', state: 'Browsing all weapons', key: Assets.Search, button: 'y' },
+    'xp': { details: 'Guides', state: 'Viewing XP calculator', key: Assets.Reading, button: 'y' },
+    'story': { details: 'Story', state: 'Reading about Fortnite lore', key: Assets.Reading, button: 'y' },
+    'season-countdown': { details: 'Season Countdown', state: 'Waiting for the next season', key: Assets.Premiere, button: 'y' },
+    'community': { details: 'Community', state: 'Browsing social media posts', key: Assets.Reading, button: 'y' },
+    'assets': { details: 'Beyond Assets', state: 'Viewing Fortnite assets', key: Assets.Search, button: 'y' },
   }
 
   const statPages: Record<string, string> = { // all versions of the stats page
@@ -94,7 +95,7 @@ presence.on('UpdateData', async () => {
     presenceData.details = sitePages[page].details
     presenceData.state = sitePages[page].state
     presenceData.smallImageKey = sitePages[page].key
-    if (!setting.privacy) {
+    if (!setting.privacy && sitePages[page].button === 'y') {
       presenceData.buttons = [
         {
           label: `View ${sitePages[page].details}`,
