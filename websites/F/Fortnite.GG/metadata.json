@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schemas.premid.app/metadata/1.15",
+  "apiVersion": 1,
+  "author": {
+    "id": "212701689579438080",
+    "name": "bnwkr"
+  },
+  "service": "Fortnite.GG",
+  "description": {
+    "en": "Fortnite.GG is a comprehensive Fortnite database and stats tracker, providing detailed information on cosmetics, items, creative maps and player stats."
+  },
+  "url": [
+    "www.fortnite.gg",
+    "fortnite.gg"
+  ],
+  "version": "1.0.0",
+  "logo": "https://pbs.twimg.com/profile_images/1354087840624291843/OfxCO8wt_400x400.png",
+  "thumbnail": "https://i.imgur.com/R9bx4Rd.jpeg",
+  "color": "#000000",
+  "category": "games",
+  "tags": [
+    "fortnite",
+    "social",
+    "database",
+    "stats",
+    "tracker",
+    "wiki"
+  ],
+  "settings": [
+    {
+      "id": "privacy",
+      "title": "Privacy Mode",
+      "icon": "fad fa-user-secret",
+      "value": false
+    }
+  ]
+}
