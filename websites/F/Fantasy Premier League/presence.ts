@@ -22,11 +22,11 @@ presence.on('UpdateData', async () => {
     privacy: await presence.getSetting<boolean>('privacy'),
   }
 
-  if (setting.showButtons) {
+  if (setting.showButtons && !setting.privacy) {
     presenceData.buttons = [
       {
-        label: 'Visit Website',
-        url: 'https://fantasy.premierleague.com/',
+        label: 'Visit Page',
+        url: document.location.href,
       },
     ]
   }
@@ -42,7 +42,9 @@ presence.on('UpdateData', async () => {
     presenceData.state = 'Viewing FPL status'
   }
   else if (urlpath[1] === 'my-team') { // grabs team name and overall points while viewing your own FPL team
-    const teamPoints = document.querySelector<HTMLMetaElement>('[class="rd5cco6"]')?.textContent
+    const teamPoints = Array.from(document.querySelectorAll('li')).find(li =>
+      li.querySelector('h4')?.textContent?.trim() === 'Overall points',
+    )?.querySelector('div')?.textContent
     presenceData.details = 'Viewing my team'
     if (teamPoints) {
       presenceData.state = `Overall points: ${teamPoints}`
@@ -51,9 +53,25 @@ presence.on('UpdateData', async () => {
       presenceData.state = 'No overall points'
     }
   }
-  else if (urlpath[1] === 'entry' || urlpath[1] === 'team-of-the-week') { // grabs team name and overall points while viewing someone else's FPL team
-    const teamPoints = document.querySelector<HTMLMetaElement>('[class="rd5cco6"]')?.textContent
-    const teamName = document.querySelector<HTMLMetaElement>('[class="_1iy1znb1"]')?.textContent
+  else if (urlpath[1] === 'entry' || urlpath[1] === 'team-of-the-week') { // this section grabs the team name and overall points while viewing someone else's FPL team
+    const teamPoints = Array.from(document.querySelectorAll('li')).find(li =>
+      li.querySelector('h4')?.textContent?.trim() === 'Overall points',
+    )?.querySelector('div')?.textContent
+    const teamName = Array.from(document.querySelectorAll('div > h2')) // find the team name without relying on computer-generated class names
+      .find((h2) => {
+        const parent = h2.parentElement
+        // Check if the next sibling is a div and contains text, as all team names are next to the manager name
+        const nextDiv = h2.nextElementSibling as HTMLElement | null
+        return (
+          parent
+          && parent.children.length === 2
+          && nextDiv
+          && nextDiv.tagName === 'DIV'
+          && !!nextDiv.textContent?.trim()
+        )
+      })
+      ?.textContent
+      ?.trim()
     presenceData.details = `Viewing team: ${teamName ?? 'No team name'}`
     if (teamPoints) {
       presenceData.state = `Overall points: ${teamPoints}`
@@ -100,7 +118,7 @@ presence.on('UpdateData', async () => {
       presenceData.state = 'Viewing league status'
     }
     else {
-      const leagueName = document.querySelector<HTMLMetaElement>('[class="y4h0qq0"]')?.textContent
+      const leagueName = document.querySelector('h2#page-title')?.textContent?.trim()
       presenceData.details = 'Viewing league'
       presenceData.state = `${leagueName ?? 'No league name'}`
       if (setting.showButtons && !setting.privacy) {
