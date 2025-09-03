@@ -22,7 +22,7 @@ presence.on('UpdateData', async () => {
   const params = new URLSearchParams(queryString)
 
   const setting = {
-    privacy: await presence.getSetting<boolean>('privacy')
+    privacy: await presence.getSetting<boolean>('privacy'),
   }
 
   const homepageStates: Record<string, string> = { // all homepage Fortnite islands
@@ -35,7 +35,7 @@ presence.on('UpdateData', async () => {
     'squid-game': 'Looking at the Reload map',
   }
 
-  const sitePages: Record<string, { details: string; state: string; key: string; button: string }> = { // list of all page RPCs that don't require extra code
+  const sitePages: Record<string, { details: string, state: string, key: string, button: string }> = { // list of all page RPCs that don't require extra code
     'map-evolution': { details: 'Map Evolution', state: 'Comparing Fortnite maps', key: Assets.Search, button: 'y' },
     'wishlist': { details: 'Cosmetics', state: 'Looking at my wishlist', key: Assets.Viewing, button: 'y' },
     'locker': { details: 'Cosmetics', state: 'Viewing my locker', key: Assets.Viewing, button: 'y' },
@@ -92,7 +92,8 @@ presence.on('UpdateData', async () => {
   else if (homepageStates[page]) {
     presenceData.details = 'Homepage'
     presenceData.state = homepageStates[page]
-  } else if (sitePages[page]) {
+  }
+  else if (sitePages[page]) {
     presenceData.details = sitePages[page].details
     presenceData.state = sitePages[page].state
     presenceData.smallImageKey = sitePages[page].key
@@ -101,10 +102,11 @@ presence.on('UpdateData', async () => {
         {
           label: `View ${sitePages[page].details}`,
           url: document.location.href,
-        }
+        },
       ]
     }
-  } else if (statPages[page]) {
+  }
+  else if (statPages[page]) {
     presenceData.details = 'Stats'
     presenceData.state = statPages[page]
     presenceData.smallImageKey = Assets.Search
@@ -123,7 +125,7 @@ presence.on('UpdateData', async () => {
       ]
     }
 
-    if (params.get('code')) { 
+    if (params.get('code')) {
       const islandDetails = document.querySelector<HTMLDivElement>('.island-detail')
       const islandName = islandDetails?.querySelector<HTMLHeadingElement>('h1')?.textContent ?? 'Viewing an island'
       const islandCreator = islandDetails?.querySelector<HTMLDivElement>('div')?.textContent ?? 'Creator unknown'
@@ -157,42 +159,42 @@ presence.on('UpdateData', async () => {
       },
     ]
   }
-    if (params.get('id')) { // grab ID of a cosmetic and display information about it in the RPC
-      const cosmeticType = document.querySelector<HTMLMetaElement>('[class="fn-detail-type"]')
-      const cosmeticName = document.querySelector<HTMLMetaElement>('[class="fn-detail-name"]')
-      presenceData.details = `Viewing ${cosmeticType?.textContent ?? 'a cosmetic'}`
-      presenceData.state = `${cosmeticName?.textContent ?? ''}`
-      presenceData.buttons = [
-        {
-          label: `View Cosmetic`,
-          url: document.location.href,
-        }
-      ]
-    }
-    const cosmeticFilters: Record<string, string> = { // list of the main filter types on the cosmetics page along with their RPC state
-      outfit: 'Looking at outfits',
-      emote: 'Looking at emotes',
-      pickaxe: 'Looking at pickaxes',
-      backpack: 'Looking at backblings',
-      glider: 'Looking at gliders',
-      kicks: 'Looking at kicks',
-      wrap: 'Looking at wraps',
-      loadingscreen: 'Looking at loading screens',
-      music: 'Looking at jam tracks',
-      contrail: 'Looking at contrails',
-      spray: 'Looking at sprays',
-      emoji: 'Looking at emojis',
-      banner: 'Looking at banners',
-      bundle: 'Looking at bundles',
-    }
+  if (params.get('id')) { // grab ID of a cosmetic and display information about it in the RPC
+    const cosmeticType = document.querySelector<HTMLMetaElement>('[class="fn-detail-type"]')
+    const cosmeticName = document.querySelector<HTMLMetaElement>('[class="fn-detail-name"]')
+    presenceData.details = `Viewing ${cosmeticType?.textContent ?? 'a cosmetic'}`
+    presenceData.state = `${cosmeticName?.textContent ?? ''}`
+    presenceData.buttons = [
+      {
+        label: `View Cosmetic`,
+        url: document.location.href,
+      },
+    ]
+  }
+  const cosmeticFilters: Record<string, string> = { // list of the main filter types on the cosmetics page along with their RPC state
+    outfit: 'Looking at outfits',
+    emote: 'Looking at emotes',
+    pickaxe: 'Looking at pickaxes',
+    backpack: 'Looking at backblings',
+    glider: 'Looking at gliders',
+    kicks: 'Looking at kicks',
+    wrap: 'Looking at wraps',
+    loadingscreen: 'Looking at loading screens',
+    music: 'Looking at jam tracks',
+    contrail: 'Looking at contrails',
+    spray: 'Looking at sprays',
+    emoji: 'Looking at emojis',
+    banner: 'Looking at banners',
+    bundle: 'Looking at bundles',
+  }
 
-    const type = params.get('type')
-    if (type && cosmeticFilters[type]) {
-      presenceData.state = cosmeticFilters[type]
-    }
-    if (params.get('tag') === 'unreleased') { // accounts for user looking at full leaked items page or filtering with this tag
-      presenceData.state = 'Browsing leaked cosmetics'
-    }
+  const type = params.get('type')
+  if (type && cosmeticFilters[type]) {
+    presenceData.state = cosmeticFilters[type]
+  }
+  if (params.get('tag') === 'unreleased') { // accounts for user looking at full leaked items page or filtering with this tag
+    presenceData.state = 'Browsing leaked cosmetics'
+  }
 
   else if (urlpath[1] === 'shop') {
     presenceData.details = 'Item Shop'
@@ -205,8 +207,8 @@ presence.on('UpdateData', async () => {
       'bestsellers': 'Looking at best selling items',
     }
 
-    const shopState = // determines if there is a current shop filter based on URL strings, or defaults to a generic message
-      Object.keys(shopFilters).find(key => params.has(key))
+    const shopState // determines if there is a current shop filter based on URL strings, or defaults to a generic message
+      = Object.keys(shopFilters).find(key => params.has(key))
         ? shopFilters[Object.keys(shopFilters).find(key => params.has(key))!]
         : `Looking at today's item shop`
 
