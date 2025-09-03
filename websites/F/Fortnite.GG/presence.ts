@@ -5,7 +5,7 @@ const presence = new Presence({
 })
 
 enum ActivityAssets {
-  Logo = 'https://pbs.twimg.com/profile_images/1354087840624291843/OfxCO8wt_400x400.png',
+  Logo = 'https://static.wikia.nocookie.net/fortnite_gamepedia/images/d/d5/GGSmileySpray.png',
 }
 
 const browsingTimestamp = Math.floor(Date.now() / 1000)
@@ -13,13 +13,14 @@ const browsingTimestamp = Math.floor(Date.now() / 1000)
 presence.on('UpdateData', async () => {
   const presenceData: PresenceData = {
     largeImageKey: ActivityAssets.Logo,
+    startTimestamp: browsingTimestamp,
     smallImageKey: Assets.Viewing,
   }
 
   const urlpath = document.location.pathname.split('/')
   const queryString = document.location.search // for grabbing query strings from url
   const params = new URLSearchParams(queryString)
-  
+
   const setting = {
     privacy: await presence.getSetting<boolean>('privacy')
   }
@@ -34,13 +35,13 @@ presence.on('UpdateData', async () => {
     'squid-game': 'Looking at the Reload map',
   }
 
-  const sitePages: Record<string, { details: string; state: string; key: string; button: String; }> = { // list of all page RPCs that don't require extra code
+  const sitePages: Record<string, { details: string; state: string; key: string; button: string }> = { // list of all page RPCs that don't require extra code
     'map-evolution': { details: 'Map Evolution', state: 'Comparing Fortnite maps', key: Assets.Search, button: 'y' },
     'wishlist': { details: 'Cosmetics', state: 'Looking at my wishlist', key: Assets.Viewing, button: 'y' },
     'locker': { details: 'Cosmetics', state: 'Viewing my locker', key: Assets.Viewing, button: 'y' },
-    'news': { details: 'News', state: 'Reading the news feed', key: Assets.Reading, button: 'y'},
+    'news': { details: 'News', state: 'Reading the news feed', key: Assets.Reading, button: 'y' },
     'most-used': { details: 'Cosmetics', state: 'Browsing the most used cosmetics', key: Assets.Viewing, button: 'y' },
-    'cosmetic-stats': {details: 'Cosmetics', state: 'Viewing cosmetic stats', key: Assets.Search, button: 'y' },
+    'cosmetic-stats': { details: 'Cosmetics', state: 'Viewing cosmetic stats', key: Assets.Search, button: 'y' },
     'free-cosmetics': { details: 'Free Cosmetics', state: 'Looking at free cosmetics', key: Assets.Viewing, button: 'y' },
     'daily-jam-tracks': { details: 'Jam Tracks', state: 'Viewing the daily jam tracks', key: Assets.Viewing, button: 'y' },
     'player-count': { details: 'Creative', state: 'Viewing live player count', key: Assets.Viewing, button: 'y' },
@@ -87,7 +88,7 @@ presence.on('UpdateData', async () => {
     presenceData.smallImageText = 'Privacy mode enabled'
     presenceData.smallImageKey = Assets.Question
   }
-  
+
   else if (homepageStates[page]) {
     presenceData.details = 'Homepage'
     presenceData.state = homepageStates[page]
@@ -165,7 +166,7 @@ presence.on('UpdateData', async () => {
         {
           label: `View Cosmetic`,
           url: document.location.href,
-        },
+        }
       ]
     }
     const cosmeticFilters: Record<string, string> = { // list of the main filter types on the cosmetics page along with their RPC state
