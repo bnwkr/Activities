@@ -4,7 +4,7 @@ const presence = new Presence({
   clientId: '1413510232507813918',
 })
 
-enum ActivityAssets { // Other default assets can be found at index.d.ts
+enum ActivityAssets {
   Logo = 'https://i.imgur.com/dtaKMRh.png',
   newsLogo = 'https://i.imgur.com/QvHgsTZ.png',
 }
